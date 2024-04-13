@@ -87,7 +87,7 @@ public class DonationController {
             Donation donation = new Donation();
             donation.setAmount(amount);
             donation.setType("Credit/Debit Card");
-            donation.setStatus("Inomplete");
+            donation.setStatus("Complete");
             donation.setUser(user);
 
             Donation savedDonation = donationService.addDonation(donation);
