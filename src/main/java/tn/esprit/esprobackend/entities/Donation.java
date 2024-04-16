@@ -1,6 +1,7 @@
 package tn.esprit.esprobackend.entities;
 import jakarta.persistence.*;
 import lombok.*;
+import tn.esprit.esprobackend.entities.Fundraiser;
 
 @Entity
 @Getter
@@ -15,6 +16,10 @@ public class Donation {
     private String type;
     private Float amount;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "fundraiser_id")
+    private Fundraiser fundraiser;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

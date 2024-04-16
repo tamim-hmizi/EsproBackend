@@ -1,5 +1,5 @@
 package tn.esprit.esprobackend.entities;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Set;
@@ -9,8 +9,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Skill {
+public class Fundraiser {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -18,9 +17,7 @@ public class Skill {
     private String name;
     private String description;
 
-    @ManyToMany(mappedBy = "skills")
-
-    @JsonBackReference
-    private Set<Module> modules;
+    @OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL)
+    private Set<Donation> donations;
 
 }
