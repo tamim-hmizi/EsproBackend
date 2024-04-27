@@ -1,16 +1,14 @@
 package tn.esprit.esprobackend.controllers;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.services.EmailService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/send-email")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
+@RequestMapping("/sendemail")
 public class EmailRestController {
 
-    @Autowired
     private EmailService emailService;
 
     @GetMapping("/{to}/{subject}/{text}")

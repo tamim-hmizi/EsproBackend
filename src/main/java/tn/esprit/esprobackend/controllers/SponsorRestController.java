@@ -12,32 +12,31 @@ import java.util.List;
 @RequestMapping("/Sponsor")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SponsorRestController {
+
     ISponsorService sponsorservice;
+
     @GetMapping("/retrieve-all-Sponsors")
     public List<Sponsor> getSponsors() {
-        List<Sponsor> listSponsors = sponsorservice.retrieveAllSponsors();
-        return listSponsors;
+        return sponsorservice.retrieveAllSponsors();
     }
 
     @GetMapping("/retrieve-Sponsor/{Sponsor-id}")
     public Sponsor retrieveSponsor(@PathVariable("Sponsor-id") Long spId) {
-        Sponsor Sponsor = sponsorservice.retrieveSponsor(spId);
-        return Sponsor;
+        return sponsorservice.retrieveSponsor(spId);
     }
+
     @PostMapping("/add-Sponsor")
     public Sponsor addSponsor(@RequestBody Sponsor c) {
-        Sponsor Sponsor = sponsorservice.addSponsor(c);
-        return Sponsor;
+        return sponsorservice.addSponsor(c);
     }
-    // http://localhost:8089/tpfoyer/Sponsor/remove-Sponsor/{Sponsor-id}
+
     @DeleteMapping("/remove-Sponsor/{Sponsor-id}")
     public void removeSponsor(@PathVariable("Sponsor-id") Long spId) {
         sponsorservice.removeSponsor(spId);
     }
-    // http://localhost:8089/tpfoyer/Sponsor/modify-Sponsor
+
     @PutMapping("/modify-Sponsor")
     public Sponsor modifySponsor(@RequestBody Sponsor c) {
-        Sponsor Sponsor = sponsorservice.modifySponsor(c);
-        return Sponsor;
+        return sponsorservice.modifySponsor(c);
     }
 }

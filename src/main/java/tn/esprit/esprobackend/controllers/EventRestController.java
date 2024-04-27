@@ -40,4 +40,13 @@ public class EventRestController {
         Event Event = eventService.modifyEvent(c);
         return Event;
     }
+
+    @GetMapping("/retrieve-events-ordered-by-date-asc")
+    public  List<Event> getEventsByDateAsc() {return eventService.getAllEventsSortedByDateAsc();}
+
+    @GetMapping("/retrieve-events-ordered-by-date-desc")
+    public  List<Event> getEventsByDateDesc() {return eventService.getAllEventsSortedByDateDesc();}
+
+    @GetMapping("/search/{input}")
+    public  List<Event> searchByTitle(@PathVariable("input") String input) {return eventService.searchByTitle(input);}
 }

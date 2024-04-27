@@ -34,6 +34,7 @@ public class EventServiceImpl implements IEventService {
     public Event modifyEvent(Event Event) {
         return eventRepository.save(Event);
     }
+
     @Override
     public List<Event> searchByTitle(String title) {
         return eventRepository.findByTitleContainingIgnoreCase(title);
@@ -43,6 +44,8 @@ public class EventServiceImpl implements IEventService {
     public List<Event> getAllEventsSortedByDateAsc() {
         return eventRepository.findAllByOrderByDateAsc();
     }
+
+    @Override
     public List<Event> getAllEventsSortedByDateDesc(){
         return eventRepository.findAllByOrderByDateDesc();
     }

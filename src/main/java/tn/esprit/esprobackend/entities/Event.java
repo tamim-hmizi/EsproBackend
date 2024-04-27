@@ -2,7 +2,7 @@ package tn.esprit.esprobackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+        import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,9 +23,10 @@ public class Event {
     private String description;
     private Date date;
     private String place;
-
+    private String banner;
+    private String affiche;
+    private String logo;
     @ManyToMany
     private Set<Sponsor> sponsors;
 
-    // Getter and setter methods
 }
