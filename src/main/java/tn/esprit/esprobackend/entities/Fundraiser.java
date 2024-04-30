@@ -16,6 +16,10 @@ public class Fundraiser {
     private Long id;
     private String name;
     private String description;
+    @Lob
+    @Column(length = 1000000)
+    private byte[] displayPicture;
+
 
     @OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL)
     private Set<Donation> donations;
