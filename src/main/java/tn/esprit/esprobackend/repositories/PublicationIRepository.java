@@ -11,5 +11,4 @@ import java.util.List;
 @Repository
 public interface PublicationIRepository extends JpaRepository<Publication,Long> {
 
-
-}
+    }

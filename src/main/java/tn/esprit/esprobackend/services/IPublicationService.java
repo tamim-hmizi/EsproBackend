@@ -1,11 +1,9 @@
 package tn.esprit.esprobackend.services;
 
-import tn.esprit.esprobackend.entities.Publication;
-import tn.esprit.esprobackend.entities.RDI;
-import tn.esprit.esprobackend.entities.RDIMember;
-import tn.esprit.esprobackend.entities.user;
+import tn.esprit.esprobackend.entities.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IPublicationService {
     public List<Publication> retrieveAllPublications();
@@ -18,4 +16,6 @@ public interface IPublicationService {
     public List<Publication> getAllPublicationsByuser(RDIMember RDIMember);
 
     public List<Publication> getAllPublicationsSortedByDateAsc();
-}
+    public int getDifficultyScore(TypeP type);
+    public Map<String, Integer> calculateActivityByLabels(List<Publication> publications, String duration, List<String> labels);
+    public List<Map<String, Object>> getTopRDIMembers();}

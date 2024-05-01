@@ -1,0 +1,85 @@
+<!-- src/main/resources/templates/scheduled-email.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Félicitations, Meilleur Chercheur de l'Année!</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; /* Light grey background */
+            margin: 0;
+            padding: 0;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff; /* White background */
+            padding: 20px;
+            border: 1px solid #ccc; /* Light border */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
+        }
+
+        .email-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #920808; /* Rouge foncé */
+            color: white;
+            border-radius: 10px 10px 0 0; /* Coins arrondis pour l'en-tête */
+        }
+
+        .email-header h1 {
+            font-size: 3em; /* Large font size for ESPRO */
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .email-header h3 {
+            font-size: 1.5em; /* Smaller font size for "Top Chercheur" */
+            margin: 0;
+        }
+
+        .email-body {
+            padding: 20px;
+            color: #333; /* Dark text color */
+        }
+
+        .email-footer {
+            padding: 10px;
+            text-align: center;
+            color: #666; /* Grey text color */
+            font-size: 0.9em;
+        }
+
+        .logo {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <h3>Top Chercheur This Year</h3> <!-- "Top Chercheur" heading -->
+        <h1>ESPRO</h1> <!-- "ESPRO" in large letters -->
+    </div>
+
+    <div class="email-body">
+        <h3>Meilleur Chercheur de l'Année</h3>
+        <p>
+            Félicitations, <span th:text="${name}">Destinataire</span>! Vous avez été reconnu comme l'un des meilleurs chercheurs de l'année. Votre travail acharné et votre dévouement sont vraiment appréciés.
+        </p>
+        <p>
+            Nous vous invitons à contacter l'administration pour obtenir plus d'informations sur votre récompense et célébrer vos réalisations.
+        </p>
+    </div>
+
+    <div class="email-footer">
+        <p>Best regards,<br/>esprit </p>
+        <!-- Inline logo -->
+        <img src="cid:espro" alt="Company Logo" class="logo"/>
+    </div>
+</div>
+</body>
+</html>

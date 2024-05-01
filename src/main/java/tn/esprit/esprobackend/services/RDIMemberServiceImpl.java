@@ -5,13 +5,16 @@ import org.springframework.stereotype.Service;
 import tn.esprit.esprobackend.entities.*;
 import tn.esprit.esprobackend.repositories.RDImemberRepository;
 import tn.esprit.esprobackend.repositories.TrainingRequestRepository;
+import tn.esprit.esprobackend.repositories.UserRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class RDIMemberServiceImpl implements IRDIMemberService {
     RDImemberRepository RDImemberRepository;
+    UserRepository UserRepository;
 
 
 
@@ -19,6 +22,11 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     public List<RDIMember> retrieveAllRDIMembers() {
         return RDImemberRepository.findAll();
     }
+    public List<user> retrieveuserAll() {
+        return UserRepository.findAll();
+    }
+
+
 
     @Override
     public RDIMember retrieveRDIMember(Long RDIId) {

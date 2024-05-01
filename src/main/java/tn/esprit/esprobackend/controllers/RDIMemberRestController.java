@@ -65,11 +65,10 @@ return rdi ;
         return RDIMember;
     }
 
-    @PostMapping("/retrieve-User-ALL")
-    public user getUsersAll() {
-      //  List<user> listRDIMembers = userService.retrieveAllusers();
-       // return listRDIMembers;
-        return null;
+    @GetMapping("/retrieve-User-ALL")
+    public  List<user> getUsersAll() {
+       List<user> listRDIMembers = RDIMemberService.retrieveuserAll();
+        return listRDIMembers;
     }
     @DeleteMapping("/remove-RDIMember/{RDIMember-id}")
     public void removeRDIMember(@PathVariable("RDIMember-id") Long RDIMemberId) {

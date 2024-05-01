@@ -3,6 +3,7 @@ package tn.esprit.esprobackend.services;
 import tn.esprit.esprobackend.entities.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IRDIService {
     public List<RDI> retrieveAllRDIs();
@@ -21,7 +22,8 @@ public interface IRDIService {
     public void assignResearchAxisToRDI(Long ResearchAxisId, Long RDIId);
     public void assignTrainingToRDI(Long TrainingId, Long RDIId);
     public void assignRDIMemberToRDI( Long RDIId ,RDIMember c);
+    public boolean existsByTheme( String theme);
 
-
+    public Map<String, List<Integer>> getActivityData(String duration);
 
 }

@@ -30,7 +30,7 @@ public class Publication {
     // Le champ pour le lien (URL)
     private String link;
 
-    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany( cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 
     private Set<RDIMember> chercheurs = new HashSet<>();
 }

@@ -5,18 +5,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.esprobackend.entities.Publication;
-import tn.esprit.esprobackend.entities.RDI;
-import tn.esprit.esprobackend.entities.RDIMember;
-import tn.esprit.esprobackend.entities.user;
+import tn.esprit.esprobackend.entities.*;
 import tn.esprit.esprobackend.services.IPublicationService;
 import tn.esprit.esprobackend.services.IRDIMemberService;
 import tn.esprit.esprobackend.services.IRDIService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.DateFormatSymbols;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @AllArgsConstructor
@@ -163,4 +160,66 @@ public class PublicationRestController {
         Publication Publication = PublicationService.modifyPublication(c);
         return Publication;
     }
+
+    @GetMapping("/activity")
+    public ResponseEntity<Map<String, Object>> getActivityData(@RequestParam("rdiId") Long rdiId, @RequestParam("duration") String duration) {
+        // Obtain labels based on the selected duration
+        List<String> labels = getLabelsBasedOnDuration(duration);
+
+        // Fetch publications for the given RDI ID
+        List<Publication> publications = getPublicationsByRdiId(rdiId);
+
+        // Calculate activity by labels
+        Map<String, Integer> activityByLabel = PublicationService.calculateActivityByLabels(publications, duration, labels);
+
+        // Get activity data based on labels
+        List<Integer> activityData = labels.stream()
+                .map(label -> activityByLabel.getOrDefault(label, 0)) // Default to 0 if label not found
+                .collect(Collectors.toList());
+
+        // Prepare response data structure
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("labels", labels); // Ensure labels are a list of strings
+        responseData.put("data", activityData); // Ensure activity data is a list of integers
+
+        // Return the response entity with correct data structure
+        return ResponseEntity.ok(responseData);
+    }
+
+    private List<String> getLabelsBasedOnDuration(String duration) {
+        Calendar cal = Calendar.getInstance();
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH);
+
+        if ("1 mois".equals(duration)) {
+            int daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Get days in the month
+            return IntStream.range(1, daysInMonth + 1) // Create a stream from 1 to end of month
+                    .mapToObj(i -> "Jour " + i) // Map to "Jour X"
+                    .collect(Collectors.toList());
+        } else if ("12 mois".equals(duration)) {
+            return IntStream.range(0, 12) // Create a stream from 0 to 11
+                    .mapToObj(i -> new DateFormatSymbols(Locale.FRANCE).getMonths()[i]) // Get month names
+                    .collect(Collectors.toList());
+        } else if ("5 ans".equals(duration)) {
+            return IntStream.range(currentYear - 4, currentYear + 1) // Create a stream of years
+                    .mapToObj(Integer::toString) // Convert to string
+                    .collect(Collectors.toList());
+        }
+
+        return Collections.singletonList("Année " + currentYear); // Default case
+    }
+
+
+    @GetMapping("/top-rdi-members")
+    public List<Map<String, Object>> getTopRDIMembers() {
+        return PublicationService.getTopRDIMembers(); // Calculate top RDI members
+
+    }
+
+
+
+    // Calculate the difficulty score based on publication type
+
 }
+
+

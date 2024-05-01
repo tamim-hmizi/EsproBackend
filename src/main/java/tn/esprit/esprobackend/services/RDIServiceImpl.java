@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import tn.esprit.esprobackend.entities.*;
 import tn.esprit.esprobackend.repositories.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -112,5 +114,19 @@ public class RDIServiceImpl implements IRDIService {
         RDIRepositorys.save(RDI);
     }
 
+    public boolean existsByTheme( String theme) {
+
+      return  RDIRepositorys.existsByTheme(theme);
+    }
+    public Map<String, List<Integer>> getActivityData(String duration) {
+        // This is where you'd implement your logic to get the data based on the duration
+        // Example data structure
+        Map<String, List<Integer>> activityData = new HashMap<>();
+
+        // Example: populate the map with data
+        // You'll need to implement your logic for fetching and processing the data here
+
+        return activityData;
+    }
 }
 
