@@ -1,7 +1,11 @@
 package tn.esprit.esprobackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,6 +28,8 @@ public class Fundraiser {
 
 
     @OneToMany(mappedBy = "fundraiser", cascade = CascadeType.ALL)
-    private Set<Donation> donations;
+    @JsonBackReference
+    private List<Donation> donations = new ArrayList<>();
+
 
 }

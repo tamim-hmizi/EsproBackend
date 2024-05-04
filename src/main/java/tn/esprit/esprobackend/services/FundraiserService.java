@@ -8,6 +8,7 @@ import tn.esprit.esprobackend.repositories.FundraiserRepository;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -40,6 +41,11 @@ public class FundraiserService implements IFundraiserService {
     public Fundraiser updateFundraiser(Fundraiser fundraiser) {
 
         return fundraiserRepository.save(fundraiser);
+    }
+
+    @Override
+    public Optional<Fundraiser> findById(Long id) {
+        return fundraiserRepository.findById(id);
     }
 
 }

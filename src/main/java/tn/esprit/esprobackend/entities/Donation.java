@@ -1,4 +1,5 @@
 package tn.esprit.esprobackend.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import tn.esprit.esprobackend.entities.Fundraiser;
@@ -19,6 +20,7 @@ public class Donation {
 
     @ManyToOne
     @JoinColumn(name = "fundraiser_id")
+    @JsonBackReference
     private Fundraiser fundraiser;
 
     @ManyToOne
