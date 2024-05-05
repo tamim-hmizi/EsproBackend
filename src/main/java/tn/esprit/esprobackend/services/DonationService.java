@@ -33,8 +33,8 @@ public class DonationService implements IDonationService {
     }
 
     @Override
-    public Donation getDonationById(Long donationId) {
-        return donationRepository.findById(donationId).orElse(null);
+    public List<Donation> getAllDonationsWithFundraiser() {
+        return donationRepository.findAllWithFundraiser();
     }
 
 

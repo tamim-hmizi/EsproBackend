@@ -45,16 +45,26 @@ public class DonationController {
     @GetMapping("/retrieve-all-donations")
     public List<Donation> getAllDonations() {
         List<Donation> donationList = donationService.getAllDonations();
-        donationList.forEach(donation -> donation.getUser().setDonations(null));
+
+        // Iterate through each donation and set the fundraiser name
+        donationList.forEach(donation -> {
+            Fundraiser fundraiser = donation.getFundraiser();
+            if (fundraiser != null) {
+                donation.setFundraiserName(fundraiser.getName());
+            }
+        });
+
         return donationList;
     }
 
-    @GetMapping("/retrieve-donation/{donation-id}")
-    public Donation getDonationById(@PathVariable("donation-id") Long donationId) {
-        Donation donation = donationService.getDonationById(donationId);
-        donation.getUser().setDonations(null);
-        return donation;
-    }
+
+
+//    @GetMapping("/retrieve-donation/{donation-id}")
+//    public Donation getDonationById(@PathVariable("donation-id") Long donationId) {
+//        Donation donation = donationService.getDonationById(donationId);
+//        donation.getUser().setDonations(null);
+//        return donation;
+//    }
 
 
     @PostMapping("/add-donation/{fundraiserId}")
