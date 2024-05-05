@@ -28,12 +28,6 @@ public class user {
 
 
     // cascade=CascadeType.ALL: non logique si j ajoute un user j ajoute une position : same operation
-    @ManyToMany( fetch=FetchType.EAGER)//si recupere un user ses posions seront recuperes aussi
-    List <position> positions;
-
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    List <academicSp> acadmics;
 
 
 }

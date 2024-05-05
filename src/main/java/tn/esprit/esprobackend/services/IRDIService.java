@@ -1,6 +1,9 @@
 package tn.esprit.esprobackend.services;
 
-import tn.esprit.esprobackend.entities.*;
+import tn.esprit.esprobackend.entities.Publication;
+import tn.esprit.esprobackend.entities.RDI;
+import tn.esprit.esprobackend.entities.RDIMember;
+import tn.esprit.esprobackend.entities.ResearchAxis;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +23,9 @@ public interface IRDIService {
     public List<RDI> searchByKeyWords(String KeyWord);
     public List<RDI> getAllRDIsSortedByDateAsc();
     public void assignResearchAxisToRDI(Long ResearchAxisId, Long RDIId);
-    public void assignTrainingToRDI(Long TrainingId, Long RDIId);
     public void assignRDIMemberToRDI( Long RDIId ,RDIMember c);
     public boolean existsByTheme( String theme);
 
     public Map<String, List<Integer>> getActivityData(String duration);
-
+    public List<RDI> getMostSimilarRDIs(Long targetRDIId);
 }

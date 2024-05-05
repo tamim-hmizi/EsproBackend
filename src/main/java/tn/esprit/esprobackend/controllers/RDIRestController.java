@@ -2,9 +2,13 @@ package tn.esprit.esprobackend.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.entities.*;
-import tn.esprit.esprobackend.services.*;
+import tn.esprit.esprobackend.services.IPublicationService;
+import tn.esprit.esprobackend.services.IRDIMemberService;
+import tn.esprit.esprobackend.services.IRDIService;
+import tn.esprit.esprobackend.services.IResearchAxisService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,16 +19,26 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/RDI")
 @CrossOrigin(origins = "http://localhost:4200")
+@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 public class RDIRestController {
     IRDIService RDIService;
     IRDIMemberService IRDIMemberService;
     IResearchAxisService ResearchAxisService;
     PublicationRestController PublicationRestController;
     IPublicationService publicationService;
+    IUserService IUserService;
     @GetMapping("/retrieve-all-RDIs")
     public List<RDI> getRDIs() {
         List<RDI> listRDIs = RDIService.retrieveAllRDIs();
         return listRDIs;
+    }
+
+    @GetMapping("/retrieve-User-RDIMember/{userId}")
+    public RDIMember getRDI(@PathVariable long userId) {
+
+        RDIMember RDIMember = IRDIMemberService.findRDIMemberByUser(IUserService.retrieveUser(userId)
+        );
+        return RDIMember;
     }
     @GetMapping("/retrieve-all-ResearchAxis")
     public List<ResearchAxis> getresearchaxisAll() {
@@ -36,6 +50,8 @@ public class RDIRestController {
         RDI RDI = RDIService.retrieveRDI(RDIId);
         return RDI;
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     @PostMapping("/add-RDI")
     public RDI addRDI(@RequestBody RDI c) {
         RDI RDI = RDIService.addRDI(c);
@@ -64,27 +80,28 @@ public class RDIRestController {
 
               return listRDIMembers;
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     @DeleteMapping("/remove-RDI/{RDI-id}")
     public void removeRDI(@PathVariable("RDI-id") Long RDIId) {
         RDIService.removeRDI(RDIId);
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     @PutMapping("/modify-RDI")
     public RDI modifyRDI(@RequestBody RDI c) {
         RDI RDI = RDIService.modifyRDI(c);
         return RDI;
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+
     @PutMapping("/affecter-ResearchAxis-a-RDI/{RDI-id}/{ResearchAxis-id}")
     public void affecterResearchAxisARDI(@PathVariable("RDI-id") Long RDIid,
                                              @PathVariable("ResearchAxis-id") Long ResearchAxisid) {
         RDIService.assignResearchAxisToRDI(ResearchAxisid,RDIid);
     }
 
-    @PutMapping("/affecter-Training-a-RDI/{RDI-id}/{Training-id}")
-    public void affecterTrainingARDI(@PathVariable("RDI-id") Long RDIid,
-                                        @PathVariable("Training-id") Long Trainingid) {
-        RDIService.assignTrainingToRDI(RDIid, Trainingid);
-    }
+
     @PutMapping("/affecter-Training-a-RDI/{RDI-id}")
     public void affecterRDIMemberARDI(@PathVariable("RDI-id") Long RDIid,@RequestBody RDIMember c
                                     ) {
@@ -93,6 +110,11 @@ public class RDIRestController {
 
 
 
+    }
+
+    @GetMapping("/most-similar")
+    public List<RDI> getMostSimilarRDIs(@RequestParam("targetRDIId") Long targetRDIId) {
+        return RDIService.getMostSimilarRDIs(targetRDIId); // Return the most similar RDIs
     }
     @GetMapping("/check-theme/{theme}")
 
@@ -160,4 +182,7 @@ public class RDIRestController {
                 return 0;
         }
     }
+
+
+
 }

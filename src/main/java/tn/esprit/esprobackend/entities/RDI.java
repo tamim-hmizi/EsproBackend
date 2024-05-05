@@ -30,9 +30,7 @@ public class RDI {
     private Set<ResearchAxis> ResearchAxis;
     @JsonIgnore
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Training> Trainings;
-    @JsonIgnore
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "RDI", fetch = FetchType.LAZY)
     private Set<RDIMember> RDIMembers;

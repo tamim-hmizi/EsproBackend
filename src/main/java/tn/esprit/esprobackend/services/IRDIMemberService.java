@@ -15,6 +15,7 @@ public interface IRDIMemberService {
     public List<RDIMember> searchByuser( user user );
     public List<RDIMember> searchByRDI(RDI RDI);
     public List<RDIMember> searchByPublication(Publication Publication);
+    public RDIMember findRDIMemberByUser(user user);
 
 
 }

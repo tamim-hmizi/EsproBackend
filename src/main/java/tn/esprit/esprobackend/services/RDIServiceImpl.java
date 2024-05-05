@@ -2,13 +2,17 @@ package tn.esprit.esprobackend.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.esprit.esprobackend.entities.*;
-import tn.esprit.esprobackend.repositories.*;
+import tn.esprit.esprobackend.entities.Publication;
+import tn.esprit.esprobackend.entities.RDI;
+import tn.esprit.esprobackend.entities.RDIMember;
+import tn.esprit.esprobackend.entities.ResearchAxis;
+import tn.esprit.esprobackend.repositories.PublicationIRepository;
+import tn.esprit.esprobackend.repositories.RDIRepository;
+import tn.esprit.esprobackend.repositories.RDImemberRepository;
+import tn.esprit.esprobackend.repositories.ResearchAxisIRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +20,6 @@ public class RDIServiceImpl implements IRDIService {
     RDIRepository RDIRepositorys;
     ResearchAxisIRepository ResearchAxisRepository;
     PublicationIRepository PublicationRepository;
-    TrainingRepository TrainingRepository;
     RDImemberRepository RDIMemberRepository;
 
 
@@ -53,15 +56,7 @@ public class RDIServiceImpl implements IRDIService {
     }
 
 
-    public void assignTrainingToRDI(Long TrainingId, Long RDIId) {
-        RDI RDI = RDIRepositorys.findById(RDIId).get();
-        Training Training = TrainingRepository.findById(TrainingId).get();
-        Set<Training> Traininglist =RDI.getTrainings();
-        // on set le fils dans le parent :
-        Traininglist.add(Training);
-        RDI.setTrainings(Traininglist);
-        RDIRepositorys.save(RDI);
-    }
+
 
     @Override
     public List<RDI> searchByTypeR(String TypeR) {
@@ -93,6 +88,7 @@ public class RDIServiceImpl implements IRDIService {
         return null;
     }
 
+    @Override
 
     public void assignResearchAxisToRDI(Long ResearchAxisId, Long RDIId) {
         RDI RDI = RDIRepositorys.findById(RDIId).get();
@@ -118,6 +114,8 @@ public class RDIServiceImpl implements IRDIService {
 
       return  RDIRepositorys.existsByTheme(theme);
     }
+    @Override
+
     public Map<String, List<Integer>> getActivityData(String duration) {
         // This is where you'd implement your logic to get the data based on the duration
         // Example data structure
@@ -128,5 +126,97 @@ public class RDIServiceImpl implements IRDIService {
 
         return activityData;
     }
+
+    public List<String> getWordListFromRDI(RDI rdi) {
+        List<String> words = new ArrayList<>();
+        String delimiters = "[,/+''``_]";
+        if (rdi != null) {
+            // Ajoute des mots à partir des champs RDI, avec vérification de null avant de faire split
+            words.addAll(
+                    Optional.ofNullable(rdi.getTheme())
+                            .map(theme -> theme.split(delimiters))
+                            .map(Arrays::asList)
+                            .orElse(Collections.emptyList())
+            );
+
+            words.addAll(
+                    Optional.ofNullable(rdi.getKeywords())
+                            .map(keywords -> keywords.split(delimiters))
+                            .map(Arrays::asList)
+                            .orElse(Collections.emptyList())
+            );
+
+            words.addAll(
+                    Optional.ofNullable(rdi.getTypeR())
+                            .map(typeR -> typeR.name().split(delimiters))
+                            .map(Arrays::asList)
+                            .orElse(Collections.emptyList())
+            );
+
+            // Ajoute des mots à partir des ResearchAxis, avec vérification de null
+            rdi.getResearchAxis().forEach(ra -> {
+                words.addAll(
+                        Optional.ofNullable(ra.getSubjectRA())
+                                .map(subject -> subject.split(delimiters))
+                                .map(Arrays::asList)
+                                .orElse(Collections.emptyList())
+                );
+
+                words.addAll(
+                        Optional.ofNullable(ra.getDescriptionRA())
+                                .map(description -> description.split(delimiters))
+                                .map(Arrays::asList)
+                                .orElse(Collections.emptyList())
+                );
+            });
+
+            // Ajoute des mots à partir des publications
+            rdi.getRDIMembers().forEach(member -> {
+                member.getPublications().forEach(publication -> {
+                    words.addAll(
+                            Optional.ofNullable(publication.getDescriptionP())
+                                    .map(description -> description.split(delimiters))
+                                    .map(Arrays::asList)
+                                    .orElse(Collections.emptyList())
+                    );
+
+                    words.addAll(
+                            Optional.ofNullable(publication.getSubjectP())
+                                    .map(subject -> subject.split(delimiters))
+                                    .map(Arrays::asList)
+                                    .orElse(Collections.emptyList())
+                    );
+                });
+            });
+        }
+
+      return words.stream().distinct().collect(Collectors.toList()); /// S'assure qu'il n'y a pas de doublons
+      }
+    @Override
+
+    public List<RDI> getMostSimilarRDIs(Long targetRDIId) {
+        RDI targetRDI = RDIRepositorys.findById(targetRDIId).get();; // Retrieve the target RDI
+        if (targetRDI == null) {
+            return Collections.emptyList(); // Return empty list if no target RDI found
+        }
+
+        List<String> targetWords = getWordListFromRDI(targetRDI); // Get words from the target RDI
+        Map<RDI, Integer> similarityMap = new HashMap<>(); // Map to store similarity scores
+
+        retrieveAllRDIs().forEach(rdi -> {
+            if (!rdi.getId().equals(targetRDIId)) { // Don't compare with itself
+                List<String> rdiWords = getWordListFromRDI(rdi);
+                int commonWords = (int) rdiWords.stream().filter(targetWords::contains).count(); // Count common words
+                similarityMap.put(rdi, commonWords); // Store similarity score
+            }
+        });
+
+        // Sort RDIs based on similarity score in descending order
+        return similarityMap.entrySet().stream()
+                .sorted((a, b) -> b.getValue().compareTo(a.getValue()))
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
 }
+
 

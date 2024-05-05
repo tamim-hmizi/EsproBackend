@@ -1,20 +1,27 @@
 package tn.esprit.esprobackend.services;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.esprobackend.entities.*;
+import tn.esprit.esprobackend.entities.Publication;
+import tn.esprit.esprobackend.entities.RDI;
+import tn.esprit.esprobackend.entities.RDIMember;
+import tn.esprit.esprobackend.entities.user;
 import tn.esprit.esprobackend.repositories.RDImemberRepository;
-import tn.esprit.esprobackend.repositories.TrainingRequestRepository;
-import tn.esprit.esprobackend.repositories.UserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class RDIMemberServiceImpl implements IRDIMemberService {
+    @Autowired
+
     RDImemberRepository RDImemberRepository;
-    UserRepository UserRepository;
+    @Autowired
+
+    userRepo  UserRepository;
 
 
 
@@ -62,5 +69,9 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     public List<RDIMember> searchByPublication(Publication Publication) {
         return null;
     }
+    @Override
+
+    public RDIMember findRDIMemberByUser(user user){return RDImemberRepository.findRDIMemberByUser(user)  ;}
+
 }
 

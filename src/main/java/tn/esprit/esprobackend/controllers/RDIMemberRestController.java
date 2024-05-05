@@ -1,8 +1,8 @@
 package tn.esprit.esprobackend.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.esprobackend.entities.Publication;
 import tn.esprit.esprobackend.entities.RDI;
 import tn.esprit.esprobackend.entities.RDIMember;
 import tn.esprit.esprobackend.entities.user;
@@ -11,12 +11,12 @@ import tn.esprit.esprobackend.services.IRDIService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/RDIMember")
 @CrossOrigin(origins = "http://localhost:4200")
+@PreAuthorize("hasAuthority('ADMIN')")
 
 public class RDIMemberRestController {
     IRDIMemberService RDIMemberService;

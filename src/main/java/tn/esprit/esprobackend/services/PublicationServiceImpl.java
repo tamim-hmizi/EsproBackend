@@ -1,13 +1,12 @@
 package tn.esprit.esprobackend.services;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import tn.esprit.esprobackend.entities.*;
+import tn.esprit.esprobackend.entities.Publication;
+import tn.esprit.esprobackend.entities.RDI;
+import tn.esprit.esprobackend.entities.RDIMember;
+import tn.esprit.esprobackend.entities.TypeP;
 import tn.esprit.esprobackend.repositories.PublicationIRepository;
-import tn.esprit.esprobackend.repositories.RDIRepository;
 import tn.esprit.esprobackend.repositories.RDImemberRepository;
 
 import java.util.*;
