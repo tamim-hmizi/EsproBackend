@@ -12,15 +12,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.entities.Donation;
+import tn.esprit.esprobackend.entities.Fundraiser;
 import tn.esprit.esprobackend.entities.User;
 import tn.esprit.esprobackend.repositories.DonationRepository;
 import tn.esprit.esprobackend.repositories.UserRepository;
+import tn.esprit.esprobackend.services.IFundraiserService;
 import tn.esprit.esprobackend.stripe.CreateCheckoutSessionRequest;
 import tn.esprit.esprobackend.services.IDonationService;
 
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -29,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DonationController {
 
     private final IDonationService donationService;
+    private final IFundraiserService fundraiserService;
     private final ObjectMapper objectMapper;
     private final CreateCheckoutSessionRequest checkoutSessionRequest;
     private final UserRepository userRepository;
@@ -53,11 +57,24 @@ public class DonationController {
     }
 
 
-    @PostMapping("/add-donation")
-    public Donation addModule(@RequestBody Donation d) {
-        Donation donation = donationService.addDonation(d);
-        return donation;
+    @PostMapping("/add-donation/{fundraiserId}")
+    public ResponseEntity<Donation> addDonation(@RequestBody Donation donation, @PathVariable Long fundraiserId) {
+        try {
+            Optional<Fundraiser> optionalFundraiser = fundraiserService.findById(fundraiserId);
+            if (optionalFundraiser.isPresent()) {
+                Fundraiser fundraiser = optionalFundraiser.get(); // Fetch the corresponding Fundraiser entity
+                donation.setFundraiser(fundraiser); // Set the Fundraiser entity in the Donation object
+
+                Donation savedDonation = donationService.addDonation(donation); // Save the Donation entity
+                return ResponseEntity.ok(savedDonation); // Return the saved Donation entity with HTTP status 200 OK
+            } else {
+                return ResponseEntity.notFound().build(); // Return HTTP status 404 Not Found if Fundraiser entity is not found
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return HTTP status 500 Internal Server Error if an error occurs
+        }
     }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,16 +101,6 @@ public class DonationController {
             SessionCreateParams sessionParams = request.buildSession(true);
             Session session = Session.create(sessionParams);
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            User user = userRepository.findById(1L).orElse(null);
-
-            // Create and save the donation object
-            Donation donation = new Donation();
-            donation.setAmount(amount);
-            donation.setType("Credit/Debit Card");
-            donation.setStatus("Unpaid");
-            donation.setUser(user);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
 

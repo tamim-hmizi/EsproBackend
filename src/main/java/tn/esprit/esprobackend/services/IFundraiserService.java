@@ -14,5 +14,5 @@ public interface IFundraiserService {
     Fundraiser addFundraiser(Fundraiser fundraiser) throws IOException;;
     Optional<Fundraiser> findById(Long id);
 
-    void removeFundraiser(Long fundraiserId);
+    void removeFundraiser(Long id);
 }

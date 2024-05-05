@@ -1,12 +1,11 @@
 package tn.esprit.esprobackend.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.esprobackend.entities.Fundraiser;
 import tn.esprit.esprobackend.repositories.FundraiserRepository;
-import java.io.IOException;
-import java.util.Base64;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +14,7 @@ import java.util.Optional;
 public class FundraiserService implements IFundraiserService {
 
     private final FundraiserRepository fundraiserRepository;
+
     @Override
     public List<Fundraiser> getAllFundraisers() {
         return fundraiserRepository.findAll();
@@ -27,10 +27,8 @@ public class FundraiserService implements IFundraiserService {
 
     @Override
     public Fundraiser addFundraiser(Fundraiser fundraiser) {
-
         return fundraiserRepository.save(fundraiser);
     }
-
 
     @Override
     public void removeFundraiser(Long fundraiserId) {
@@ -39,7 +37,6 @@ public class FundraiserService implements IFundraiserService {
 
     @Override
     public Fundraiser updateFundraiser(Fundraiser fundraiser) {
-
         return fundraiserRepository.save(fundraiser);
     }
 
@@ -47,5 +44,6 @@ public class FundraiserService implements IFundraiserService {
     public Optional<Fundraiser> findById(Long id) {
         return fundraiserRepository.findById(id);
     }
+
 
 }
