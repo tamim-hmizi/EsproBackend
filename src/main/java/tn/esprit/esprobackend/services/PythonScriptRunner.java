@@ -16,7 +16,7 @@ public class PythonScriptRunner {
 
     private String downloadPythonScript() throws IOException {
         // Download the script to a temporary location
-        URL url = new URL("http://localhost/hackathon_tunisia_scraps.py");
+        URL url = new URL("http://localhost/Espro-Event-Scraper/hackathon_tunisia_scraps.py");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
