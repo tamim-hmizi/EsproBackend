@@ -24,4 +24,7 @@ public class Vacation {
     private Date start_date;
 
     private Date end_date;
+
+    @ManyToOne
+    private User user;
 }
