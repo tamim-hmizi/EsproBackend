@@ -3,8 +3,6 @@ package tn.esprit.esprobackend.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.esprobackend.entities.Donation;
-import tn.esprit.esprobackend.entities.Module;
-import tn.esprit.esprobackend.entities.User;
 import tn.esprit.esprobackend.repositories.DonationRepository;
 import tn.esprit.esprobackend.repositories.UserRepository;
 

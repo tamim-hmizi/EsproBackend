@@ -3,7 +3,6 @@ package tn.esprit.esprobackend.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.entities.Donation;
 import tn.esprit.esprobackend.entities.Fundraiser;
-import tn.esprit.esprobackend.entities.User;
 import tn.esprit.esprobackend.repositories.DonationRepository;
 import tn.esprit.esprobackend.repositories.UserRepository;
 import tn.esprit.esprobackend.services.IFundraiserService;
@@ -24,7 +22,6 @@ import tn.esprit.esprobackend.services.IDonationService;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/donation")
