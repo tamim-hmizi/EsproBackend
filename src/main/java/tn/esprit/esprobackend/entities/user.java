@@ -1,39 +1,32 @@
 package tn.esprit.esprobackend.entities;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.*;
+import tn.esprit.esprobackend.entities.Donation;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class user {
+@AllArgsConstructor
+@ToString
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long idU;
-    private String nameU;
-    private String surnameU;
+    private String nom;
+    private String prenom;
     private String password;
-    private String email;
-    private Long  telnum;
 
-    @Enumerated(EnumType.STRING)
+    private String email;
+
     private Role role;
 
-    private String img; //Bolb
 
-
-    // cascade=CascadeType.ALL: non logique si j ajoute un user j ajoute une position : same operation
-    @ManyToMany( fetch=FetchType.EAGER)//si recupere un user ses posions seront recuperes aussi
-    List <position> positions;
-
-
-    @ManyToMany(cascade=CascadeType.ALL)
-    List <academicSp> acadmics;
-
+    @OneToMany
+            (mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Donation> donations;
 
 }

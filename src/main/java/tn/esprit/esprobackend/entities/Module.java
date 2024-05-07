@@ -14,6 +14,7 @@ public class Module {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     private String description;
     private Long teaching_hours;
     private Long ects;
@@ -24,7 +25,5 @@ public class Module {
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private Set<Skill> skills;
 
-    @ManyToMany(mappedBy = "modules")
-    private Set<Classroom> classrooms;
 }
 
