@@ -1,29 +1,32 @@
 package tn.esprit.esprobackend.entities;
+
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.List;
 import tn.esprit.esprobackend.entities.Donation;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
+@ToString
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String lastname;
-    private String role;
-    private String email;
+
+    private String nom;
+    private String prenom;
     private String password;
-    private Long telephone_number;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    private String email;
+
+    private Role role;
+
+
+    @OneToMany
+            (mappedBy = "user", cascade = CascadeType.ALL)
     private List<Donation> donations;
-
-
 
 }
