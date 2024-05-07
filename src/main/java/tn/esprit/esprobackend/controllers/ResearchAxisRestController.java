@@ -1,6 +1,7 @@
 package tn.esprit.esprobackend.controllers;
 
 import lombok.AllArgsConstructor;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.entities.Publication;
 import tn.esprit.esprobackend.entities.RDI;
@@ -19,7 +20,7 @@ import java.util.Set;
 @AllArgsConstructor
 @RequestMapping("/ResearchAxis")
 @CrossOrigin(origins = "http://localhost:4200")
-
+//@PreAuthorize("hasAuthority('ADMIN')or hasAuthority('USER') ")
 public class ResearchAxisRestController {
     IResearchAxisService ResearchAxisService;
     IRDIService IRDIService;

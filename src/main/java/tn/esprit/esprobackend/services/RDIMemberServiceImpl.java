@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import tn.esprit.esprobackend.entities.Publication;
 import tn.esprit.esprobackend.entities.RDI;
 import tn.esprit.esprobackend.entities.RDIMember;
-import tn.esprit.esprobackend.entities.user;
+import tn.esprit.esprobackend.entities.User;
 import tn.esprit.esprobackend.repositories.RDImemberRepository;
+import tn.esprit.esprobackend.repositories.UserRepository;
+//import tn.esprit.esprobackend.repositories.userRepo;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     RDImemberRepository RDImemberRepository;
     @Autowired
 
-    userRepo  UserRepository;
+    UserRepository UserRepository;
 
 
 
@@ -29,7 +31,7 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     public List<RDIMember> retrieveAllRDIMembers() {
         return RDImemberRepository.findAll();
     }
-    public List<user> retrieveuserAll() {
+    public List<User> retrieveuserAll() {
         return UserRepository.findAll();
     }
 
@@ -56,7 +58,7 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     }
 
     @Override
-    public List<RDIMember> searchByuser(user user) {
+    public List<RDIMember> searchByuser(User user) {
         return null;
     }
 
@@ -71,7 +73,7 @@ public class RDIMemberServiceImpl implements IRDIMemberService {
     }
     @Override
 
-    public RDIMember findRDIMemberByUser(user user){return RDImemberRepository.findRDIMemberByUser(user)  ;}
+      public RDIMember findRDIMemberByUser(User user){return RDImemberRepository.findRDIMemberByUser(user)  ;}
 
 }
 

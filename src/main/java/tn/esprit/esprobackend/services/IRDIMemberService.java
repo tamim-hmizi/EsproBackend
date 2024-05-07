@@ -6,16 +6,16 @@ import java.util.List;
 
 public interface IRDIMemberService {
     public List<RDIMember> retrieveAllRDIMembers();
-    public List<user> retrieveuserAll() ;
+    public List<User> retrieveuserAll() ;
 
     public RDIMember retrieveRDIMember(Long RDIId);
     public RDIMember addRDIMember(RDIMember c);
     public void removeRDIMember(Long RDIId);
     public RDIMember modifyRDIMember(RDIMember RDIMember);
-    public List<RDIMember> searchByuser( user user );
+    public List<RDIMember> searchByuser( User user );
     public List<RDIMember> searchByRDI(RDI RDI);
     public List<RDIMember> searchByPublication(Publication Publication);
-    public RDIMember findRDIMemberByUser(user user);
+    public RDIMember findRDIMemberByUser(User user);
 
 
 }

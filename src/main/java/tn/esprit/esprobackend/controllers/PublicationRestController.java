@@ -1,12 +1,12 @@
 package tn.esprit.esprobackend.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.esprobackend.entities.Publication;
-import tn.esprit.esprobackend.entities.RDI;
-import tn.esprit.esprobackend.entities.RDIMember;
+import tn.esprit.esprobackend.entities.*;
 import tn.esprit.esprobackend.services.IPublicationService;
 import tn.esprit.esprobackend.services.IRDIMemberService;
 import tn.esprit.esprobackend.services.IRDIService;
@@ -97,7 +97,7 @@ public class PublicationRestController {
         List<RDI> RDI = RDIService.retrieveAllRDIs();
         return RDI;
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add-Publication")
     public Publication addPublication(@RequestBody Publication publication) {
         Set<RDIMember> chercheurs = publication.getChercheurs();
@@ -118,7 +118,7 @@ public class PublicationRestController {
 
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
 
 
     @DeleteMapping("/remove-Publication/{Publication-id}")
@@ -141,7 +141,7 @@ public class PublicationRestController {
     }
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+  //  @PreAuthorize("hasAuthority('ADMIN')")
 
     @PutMapping("/modify-Publication")
     public Publication modifyPublication(@RequestBody Publication c) {

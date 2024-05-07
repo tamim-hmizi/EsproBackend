@@ -152,7 +152,7 @@ public class PublicationServiceImpl implements IPublicationService {
                 if (!rdiMembersMap.containsKey(chercheur.getId())) {
                     Map<String, Object> rdiMember = new HashMap<>();
                     rdiMember.put("id", chercheur.getId());
-                    rdiMember.put("name", chercheur.getUser().getNameU());
+                    rdiMember.put("name", chercheur.getUser().getNom());
                     rdiMember.put("email", chercheur.getUser().getEmail());
 
                     rdiMember.put("publicationCount", 0);

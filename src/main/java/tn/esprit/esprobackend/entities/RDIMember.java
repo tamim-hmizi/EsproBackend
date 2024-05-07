@@ -1,6 +1,7 @@
 package tn.esprit.esprobackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,6 +33,9 @@ public class RDIMember {
     @ManyToOne
     private RDI RDI;
 
-    @ManyToOne
-    private user user;
+    @ManyToOne(cascade= CascadeType.PERSIST,fetch=FetchType.EAGER)
+
+
+
+    private User user;
 }
