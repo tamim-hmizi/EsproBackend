@@ -1,9 +1,12 @@
 package tn.esprit.esprobackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import tn.esprit.esprobackend.entities.Donation;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -29,4 +32,15 @@ public class User {
             (mappedBy = "user", cascade = CascadeType.ALL)
     private List<Donation> donations;
 
+<<<<<<< HEAD
+=======
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+//    @JsonIgnore
+//    private Set<Affectation> affectations;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
+    private Set<Vacation> vacations;
+
+>>>>>>> houssem
 }

@@ -1,5 +1,6 @@
 package tn.esprit.esprobackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class Classroom {
 
     private Set<Module> modules;
 
+<<<<<<< HEAD
 //   @ManyToMany(cascade = CascadeType.ALL)
 //    private Set<Affectation> affectations;
 
@@ -43,4 +45,12 @@ public class Classroom {
    //@OneToMany(mappedBy="classroom", cascade = CascadeType.ALL)
     //@JsonBackReference
     //private Set <Affectation> affectations;
+=======
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "classroom")
+    @JsonBackReference
+    private Set<Affectation> affectations;
+
+
+>>>>>>> houssem
 }

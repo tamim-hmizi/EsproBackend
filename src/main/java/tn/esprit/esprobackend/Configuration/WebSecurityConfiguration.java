@@ -29,9 +29,9 @@ public class WebSecurityConfiguration {
         return security.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/signup", "/login","/skill/**","/module/**","/donation/**","/fundraiser/**"
-
                         ,"/Event/**","/sendemail/**","/EventScraps/**","/sendsms/**","/Sponsor/**",
-                  "/classroom/**","/level/**","/option/**","/RDI/**","/Publication/**","/RDIMember/**","/ResearchAxis/**").permitAll()
+                  "/classroom/**","/level/**","/option/**","/RDI/**","/Publication/**","/RDIMember/**",
+                        "/ResearchAxis/**","/calendar/**","/vacation/**","/affectation/**","/api/users/**").permitAll()
 
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/**")
