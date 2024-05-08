@@ -1,10 +1,8 @@
 package tn.esprit.esprobackend.entities;
 
-import tn.esprit.esprobackend.entities.Affectation;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Getter

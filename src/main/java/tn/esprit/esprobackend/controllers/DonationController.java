@@ -3,7 +3,6 @@ package tn.esprit.esprobackend.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +11,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.esprobackend.entities.Donation;
-import tn.esprit.esprobackend.entities.User;
+import tn.esprit.esprobackend.entities.Fundraiser;
 import tn.esprit.esprobackend.repositories.DonationRepository;
 import tn.esprit.esprobackend.repositories.UserRepository;
+import tn.esprit.esprobackend.services.IFundraiserService;
 import tn.esprit.esprobackend.stripe.CreateCheckoutSessionRequest;
 import tn.esprit.esprobackend.services.IDonationService;
 
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/donation")
@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DonationController {
 
     private final IDonationService donationService;
+    private final IFundraiserService fundraiserService;
     private final ObjectMapper objectMapper;
     private final CreateCheckoutSessionRequest checkoutSessionRequest;
     private final UserRepository userRepository;
@@ -41,23 +42,46 @@ public class DonationController {
     @GetMapping("/retrieve-all-donations")
     public List<Donation> getAllDonations() {
         List<Donation> donationList = donationService.getAllDonations();
-        donationList.forEach(donation -> donation.getUser().setDonations(null));
+
+        // Iterate through each donation and set the fundraiser name
+        donationList.forEach(donation -> {
+            Fundraiser fundraiser = donation.getFundraiser();
+            if (fundraiser != null) {
+                donation.setFundraiserName(fundraiser.getName());
+            }
+        });
+
         return donationList;
     }
 
-    @GetMapping("/retrieve-donation/{donation-id}")
-    public Donation getDonationById(@PathVariable("donation-id") Long donationId) {
-        Donation donation = donationService.getDonationById(donationId);
-        donation.getUser().setDonations(null);
-        return donation;
-    }
 
 
-    @PostMapping("/add-donation")
-    public Donation addModule(@RequestBody Donation d) {
-        Donation donation = donationService.addDonation(d);
-        return donation;
+//    @GetMapping("/retrieve-donation/{donation-id}")
+//    public Donation getDonationById(@PathVariable("donation-id") Long donationId) {
+//        Donation donation = donationService.getDonationById(donationId);
+//        donation.getUser().setDonations(null);
+//        return donation;
+//    }
+
+
+    @PostMapping("/add-donation/{fundraiserId}")
+    public ResponseEntity<Donation> addDonation(@RequestBody Donation donation, @PathVariable Long fundraiserId) {
+        try {
+            Optional<Fundraiser> optionalFundraiser = fundraiserService.findById(fundraiserId);
+            if (optionalFundraiser.isPresent()) {
+                Fundraiser fundraiser = optionalFundraiser.get(); // Fetch the corresponding Fundraiser entity
+                donation.setFundraiser(fundraiser); // Set the Fundraiser entity in the Donation object
+
+                Donation savedDonation = donationService.addDonation(donation); // Save the Donation entity
+                return ResponseEntity.ok(savedDonation); // Return the saved Donation entity with HTTP status 200 OK
+            } else {
+                return ResponseEntity.notFound().build(); // Return HTTP status 404 Not Found if Fundraiser entity is not found
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Return HTTP status 500 Internal Server Error if an error occurs
+        }
     }
+
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,16 +108,6 @@ public class DonationController {
             SessionCreateParams sessionParams = request.buildSession(true);
             Session session = Session.create(sessionParams);
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            User user = userRepository.findById(1L).orElse(null);
-
-            // Create and save the donation object
-            Donation donation = new Donation();
-            donation.setAmount(amount);
-            donation.setType("Credit/Debit Card");
-            donation.setStatus("Unpaid");
-            donation.setUser(user);
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,12 +1,14 @@
 package tn.esprit.esprobackend.entities;
 
-import tn.esprit.esprobackend.entities.Affectation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
 import java.util.Set;
+
 
 @Entity
 @Getter
@@ -14,14 +16,31 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
+
 public class Classroom {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
+    private String classroomSalle;
+    private String startYear;
+    private String endYear;
+
+    @ManyToOne
+
+    Level level;
+    @ManyToOne
+
+    Option option;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+
+    private Set<Module> modules;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classroom")
     @JsonBackReference
     private Set<Affectation> affectations;
+
+
 }

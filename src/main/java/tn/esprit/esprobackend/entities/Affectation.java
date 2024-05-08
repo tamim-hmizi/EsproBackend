@@ -26,8 +26,8 @@ public class Affectation {
     @ManyToOne
     private Module module;
 
-    @ManyToOne
-    private User user;
+//    @ManyToOne
+//    private User user;
 
     @ManyToOne
     private Classroom classroom;

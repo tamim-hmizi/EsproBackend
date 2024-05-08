@@ -18,8 +18,8 @@ public class CreateCheckoutSessionRequest {
         Long adjustedAmount = Math.max(Math.round(this.amount * 100), 500L); // Convert amount to cents
 
         SessionCreateParams.Builder builder = SessionCreateParams.builder()
-                .setSuccessUrl("http://localhost:63849/home?succeded")
-                .setCancelUrl("http://localhost:63849/donation");
+                .setSuccessUrl("http://localhost:4200/donate")
+                .setCancelUrl("http://localhost:4200/");
 
         if (isPayment) {
             builder.setMode(SessionCreateParams.Mode.PAYMENT);

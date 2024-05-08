@@ -29,6 +29,5 @@ public class Module {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "module")
     @JsonBackReference
     private Set<Affectation> affectations;
-
 }
 

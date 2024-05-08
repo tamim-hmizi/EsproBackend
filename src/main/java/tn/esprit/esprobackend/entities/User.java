@@ -1,33 +1,43 @@
 package tn.esprit.esprobackend.entities;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import tn.esprit.esprobackend.entities.Donation;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-
+@AllArgsConstructor
+@ToString
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String lastname;
-    private String role;
-    private String email;
+
+    private String nom;
+    private String prenom;
     private String password;
-    private Long telephone_number;
+
+    private String email;
+
+    private Role role;
+
+
+    @OneToMany
+            (mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Donation> donations;
+
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+//    @JsonIgnore
+//    private Set<Affectation> affectations;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
-    private Set<Affectation> affectations;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Vacation> vacations;
+
 }

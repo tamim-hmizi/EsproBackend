@@ -6,11 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tn.esprit.esprobackend.entities.Donation;
 import tn.esprit.esprobackend.entities.Fundraiser;
 import tn.esprit.esprobackend.services.IFundraiserService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/fundraiser")
@@ -46,10 +50,12 @@ public class FundraiserController {
     @PostMapping("/add-fundraiser")
     public ResponseEntity<Fundraiser> addFundraiser(@RequestParam("name") String name,
                                                     @RequestParam("description") String description,
+                                                    @RequestParam("moneytocollect") String moneytocollect,
                                                     @RequestParam("photoFile") MultipartFile photoFile) {
         try {
             Fundraiser fundraiser = new Fundraiser();
             fundraiser.setName(name);
+            fundraiser.setMoneytocollect(Long.parseLong(moneytocollect));
             fundraiser.setDescription(description);
             fundraiser.setDisplayPicture(photoFile.getBytes());
 
@@ -83,6 +89,7 @@ public class FundraiserController {
     public ResponseEntity<Fundraiser> updateFundraiser(@PathVariable("id") Long id,
                                                        @RequestParam("name") String name,
                                                        @RequestParam("description") String description,
+                                                       @RequestParam("moneytocollect") String moneytocollect,
                                                        @RequestParam(value = "photoFile", required = false) MultipartFile photoFile) {
         try {
             // Retrieve the existing fundraiser by ID
@@ -95,6 +102,7 @@ public class FundraiserController {
 
             // Update the fundraiser with the new data
             existingFundraiser.setName(name);
+            existingFundraiser.setMoneytocollect(Long.parseLong(moneytocollect));
             existingFundraiser.setDescription(description);
 
             if (photoFile != null) {
@@ -112,6 +120,35 @@ public class FundraiserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
+    @GetMapping("/{fundraiserId}/totalDonation")
+    public ResponseEntity<?> getTotalDonation(@PathVariable Long fundraiserId) {
+        Optional<Fundraiser> fundraiserOptional = fundraiserService.findById(fundraiserId);
+
+        if (fundraiserOptional.isPresent()) {
+            Fundraiser fundraiser = fundraiserOptional.get();
+            List<Donation> donations = fundraiser.getDonations();
+
+            if (donations != null) {
+                // Filter out any null donations and sum the amounts
+                double totalDonation = donations.stream()
+                        .filter(Objects::nonNull)
+                        .mapToDouble(Donation::getAmount)
+                        .sum();
+
+                return ResponseEntity.ok(totalDonation);
+            } else {
+                // Handle case where donations list is null
+                return ResponseEntity.ok(0.0);
+            }
+        } else {
+            // Handle case where fundraiser is not found
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 
 

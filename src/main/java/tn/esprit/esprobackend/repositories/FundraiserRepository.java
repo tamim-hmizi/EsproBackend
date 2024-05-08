@@ -7,4 +7,6 @@ import tn.esprit.esprobackend.entities.Fundraiser;
 @Repository
 public interface FundraiserRepository extends JpaRepository<Fundraiser,Long> {
 
+
+
 }

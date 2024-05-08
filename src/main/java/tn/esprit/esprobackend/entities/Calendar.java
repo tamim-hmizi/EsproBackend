@@ -1,7 +1,6 @@
 package tn.esprit.esprobackend.entities;
 
-import tn.esprit.esprobackend.entities.Affectation;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +27,6 @@ public class Calendar {
     private String archive;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "calendar")
-    @JsonBackReference
+    @JsonIgnore
     private Set<Affectation> affectations;
 }
