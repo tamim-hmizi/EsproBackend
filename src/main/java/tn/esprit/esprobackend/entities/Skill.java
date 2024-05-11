@@ -18,7 +18,7 @@ public class Skill {
     private String name;
     private String description;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "skills")
 
     @JsonBackReference
     private Set<Module> modules;

@@ -33,8 +33,9 @@ public class PaypalController {
         String description = paymentRequest.getDescription();
 
         try {
-            String cancelUrl = "http://localhost:8080/payment/cancel";
-            String successUrl = "http://localhost:63849/home";
+            String cancelUrl = "http://localhost:4200/donate";
+            String successUrl = "http://localhost:4200/donate" +
+                    "";
             Payment payment = paypalService.createPayment(
                     Double.valueOf(amount),
                     currency,

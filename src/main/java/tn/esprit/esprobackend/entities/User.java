@@ -32,8 +32,6 @@ public class User {
             (mappedBy = "user", cascade = CascadeType.ALL)
     private List<Donation> donations;
 
-<<<<<<< HEAD
-=======
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 //    @JsonIgnore
 //    private Set<Affectation> affectations;
@@ -42,5 +40,4 @@ public class User {
     @JsonIgnore
     private Set<Vacation> vacations;
 
->>>>>>> houssem
 }

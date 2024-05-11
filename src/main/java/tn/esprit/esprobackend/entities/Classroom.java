@@ -37,20 +37,10 @@ public class Classroom {
 
     private Set<Module> modules;
 
-<<<<<<< HEAD
-//   @ManyToMany(cascade = CascadeType.ALL)
-//    private Set<Affectation> affectations;
-
-
-   //@OneToMany(mappedBy="classroom", cascade = CascadeType.ALL)
-    //@JsonBackReference
-    //private Set <Affectation> affectations;
-=======
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "classroom")
     @JsonBackReference
     private Set<Affectation> affectations;
 
 
->>>>>>> houssem
 }

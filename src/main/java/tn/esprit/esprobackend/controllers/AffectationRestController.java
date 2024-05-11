@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/affectation")
 public class AffectationRestController {
+
     IAffectationService affectationService;
     // http://localhost:8089/esprobackend/affectation/retrieve-all-affectations
     @GetMapping("/retrieve-all-affectations")

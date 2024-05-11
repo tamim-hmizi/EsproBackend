@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 public class PublicationServiceImpl implements IPublicationService {
     PublicationIRepository PublicationRepository;
     RDImemberRepository RDImemberRepository;
-
     @Override
     public List<Publication> retrieveAllPublications() {
         return PublicationRepository.findAll();
